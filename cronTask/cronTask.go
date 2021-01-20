@@ -1,0 +1,50 @@
+package cronTask
+
+import (
+	"chipsBot/BotService"
+	"chipsBot/utils"
+	"fmt"
+	"github.com/robfig/cron/v3"
+)
+
+
+var CronTask *cron.Cron
+
+func InitCronTask()*cron.Cron{
+	fmt.Println("初始化定时任务")
+	c := cron.New(cron.WithSeconds()) //精确到秒
+	//定时任务
+	//spec := "* 1 * * * ?"
+
+	//c.AddFunc(spec, func() {
+	//	fmt.Println("开始执行更新临时文件为待回收状态定时任务")
+	//	err:=service.RecycleFiles()
+	//	if err!=nil{
+	//		fmt.Println("执行更新临时文件为待回收状态定时任务出错")
+	//	}
+	//})
+	//c.AddFunc(spec, func() {
+	//	fmt.Println("开始执行待删除文件定时任务")
+	//	err:=service.DeleteFiles()
+	//	if err!=nil{
+	//		fmt.Println("开始执行待删除文件定时任务出错")
+	//	}
+	//})
+	//c.AddFunc("*/5 * * * * ?", func() {
+	//	fmt.Println("每五秒心跳一次")
+	//})
+
+	c.AddFunc("0 */15 * * * ?", func() {//cron表达式，每小时一次
+	//c.AddFunc("*  * * * ?", func() {//cron表达式，每3秒一次
+		fmt.Println("开始执行发图定时任务")
+		utils.SendPic()
+	})
+	c.AddFunc("0 */60 * * * ?", func() {//cron表达式，每小时一次
+		//c.AddFunc("*  * * * ?", func() {//cron表达式，每3秒一次
+		fmt.Println("开始执行热搜定时任务")
+		BotService.WeiBoSend()
+	})
+	c.Start()
+	return c
+}
+
