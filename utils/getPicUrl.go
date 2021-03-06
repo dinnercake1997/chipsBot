@@ -9,6 +9,8 @@ import (
 
 func GetPicUrl()(picUrl string,err error){
 	url:="https://api.lolicon.app/setu/?r18=1&size1200=true&apikey=908789905fb629c064ccf8"
+	keyWord:="&keyword=足"
+	url=url+keyWord
 	content,err:=DoGet(url)
 	if err!=nil{
 		log.Printf("请求loliconAPIkey出错:%v",err)
