@@ -1,3 +1,4 @@
+
 package BotService
 
 import (
@@ -9,30 +10,31 @@ import (
 	"math/rand"
 	"net/http"
 	"strconv"
+
 )
 
-func getWeiboReSou() (content string,err error){
-	content+="给小基佬们送上微博实时热搜\\n"
-	url := "http://api.tianapi.com/txapi/weibohot/index?key=5c647563d4afcb93a78ab3dbc1e731c9"
+func getZhiHuReSou() (content string,err error){
+	content+="给大可爱们送上知乎实时热榜\\n"
+	url := "http://api.rosysun.cn/zhihu/"
 	req, _ := http.NewRequest("GET", url, nil)
 	res, err := http.DefaultClient.Do(req)
 	defer res.Body.Close()
 	if err!=nil{
-		log.Printf("请求微博热点接口出错")
-		err=errors.New("请求微博热点接口出错")
+		log.Printf("请求知乎热点接口出错")
+		err=errors.New("请求知乎热点接口出错")
 		return
 	}
 	body, _ := ioutil.ReadAll(res.Body)
 	json,err:= simplejson.NewJson(body)
 	if err!=nil{
-		log.Printf("请求求微博热点接口转json出错:%v",err)
-		return "",errors.New("请求求微博热点接口转json出错")
+		log.Printf("请求知乎热点接口转json出错:%v",err)
+		return "",errors.New("请求知乎热点接口转json出错")
 	}
 	if err!=nil{return}
-	dataArrary, err :=json.Get("newslist").Array()
+	dataArrary, err :=json.Get("data").Array()
 	if err!=nil{
-		log.Printf("请求求微博热点接口获取图片信息出错:%v",err)
-		return "",errors.New("请求求微博热点接口获取图片列表出错")
+		log.Printf("请求知乎热点接口获取数组信息出错:%v",err)
+		return "",errors.New("请求知乎热点接口获取数组列表出错")
 	}
 	for i,item :=range dataArrary {
 		if i>10{
@@ -40,21 +42,22 @@ func getWeiboReSou() (content string,err error){
 		}
 		dataMap,ok:= item.(map[string]interface{})
 		if !ok{
-			log.Printf("请求loliconAPIkey获取图片url出错:%v",err)
-			return "",errors.New("请求求微博热点接口获取图片信息出错")
+			log.Printf("请求知乎出错:%v",err)
+			return "",errors.New("请求出错")
 		}
-		hotword,_:=dataMap["hotword"].(string)
-		hotwordnum,_:=dataMap["hotwordnum"].(string)
+		title,_:=dataMap["title"].(string)
+		_,_=dataMap["url"].(string)
 		iString:=strconv.Itoa(i+1)
-		content+=iString+".热搜:"+hotword+" 热度:"+hotwordnum+"\\n"
+		content+=iString+".话题:"+title+" 传送门:"+"(暂时不给了)"+"\\n"
+		//log.Printf("title:%v",title)
 	}
 	randInt := rand.Intn(100)  //生成0-99之间的随机数
 	content+="带个随机数防止腾讯以为是广告："+string(randInt)
 	return
 }
 
-func WeiBoSend(){
-	text,err:=getWeiboReSou()
+func ZhiHuSend(){
+	text,err:=getZhiHuReSou()
 
 	if err!=nil{
 		log.Printf("请求求微博热点接口获取图片信息出错:%v",err)

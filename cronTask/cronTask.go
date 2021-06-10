@@ -1,7 +1,6 @@
 package cronTask
 
 import (
-	"chipsBot/BotService"
 	"fmt"
 	"github.com/robfig/cron/v3"
 )
@@ -33,21 +32,24 @@ func InitCronTask()*cron.Cron{
 	//	fmt.Println("每五秒心跳一次")
 	//})
 
-	c.AddFunc("0 */15 * * * ?", func() {//cron表达式，每15min一次
-
-		fmt.Println("开始执行发图定时任务")
-		BotService.SendPic()
-	})
-	c.AddFunc("0 30 */8 * * ?", func() {//cron表达式，每8小时一次
-
-		fmt.Println("开始执行热搜定时任务")
-		BotService.ScienceSend()
-	})
-	c.AddFunc("0 0 */10 * * ?", func() {//cron表达式，每10小时一次
-
-		fmt.Println("开始执行科学探索定时任务")
-		BotService.ScienceSend()
-	})
+	//c.AddFunc("0 */60 * * * ?", func() {//cron表达式，每15min一次
+	//
+	//	fmt.Println("开始执行发图定时任务")
+	//	for i := 0; i <= 5; i++{
+	//		BotService.SendPic()
+	//	}
+	//
+	//})
+	//c.AddFunc("0 30 */8 * * ?", func() {//cron表达式，每8小时一次
+	//
+	//	fmt.Println("开始执行热搜定时任务")
+	//	BotService.ScienceSend()
+	//})
+	//c.AddFunc("0 0 */10 * * ?", func() {//cron表达式，每10小时一次
+	//
+	//	fmt.Println("开始执行科学探索定时任务")
+	//	BotService.ScienceSend()
+	//})
 	c.Start()
 	return c
 }

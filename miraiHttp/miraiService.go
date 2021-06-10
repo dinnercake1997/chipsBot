@@ -55,8 +55,9 @@ func InitMiraiHttp()error{
 }
 func SendPic( picUrl string ){
 
-	params:="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": 763091038,\n    \"messageChain\": [\n        { \"type\": \"Image\", \"url\": \""+picUrl+"\" }\n    ]\n}"
+	params:="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": 1085171553,\n    \"messageChain\": [\n        { \"type\": \"Image\", \"url\": \""+picUrl+"\" }\n    ]\n}"
 	_,err:=utils.DoPost(config.Myconfig.MiraiHttpUrl+"sendGroupMessage",params)
+	//log.Printf("请求发送图片参数为：%v",params)
 	if err!=nil{
 		log.Printf("请求mirai-http-api出错:%v",err)
 		return
@@ -64,7 +65,7 @@ func SendPic( picUrl string ){
 }
 
 func SendText( text string ){
-	params:="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": 763091038,\n    \"messageChain\": [\n        { \"type\": \"Plain\"," +
+	params:="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": 1085171553,\n    \"messageChain\": [\n        { \"type\": \"Plain\"," +
 		" \"text\": \""+text+"\" }\n    ]\n}"
 	_,err:=utils.DoPost(config.Myconfig.MiraiHttpUrl+"sendGroupMessage",params)
 	if err!=nil{
@@ -76,7 +77,7 @@ func SendText( text string ){
 
 func SendMix( text string ,url string ){
 
-	params:="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": 763091038,\n    \"messageChain\": [\n                { \"type\": \"Plain\", \"text\": \""+text+"\" }\n    ]\n}"
+	params:="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": 1085171553,\n    \"messageChain\": [\n                { \"type\": \"Plain\", \"text\": \""+text+"\" }\n    ]\n}"
 	//params2:="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": 763091038,\n    \"messageChain\": [\n        { \"type\": \"Image\", \"url\": \""+url+"\" },\n         { \"type\": \"Plain\", \"text\": \""+text+"\" }\n    ]\n}"
 	_,err:=utils.DoPost(config.Myconfig.MiraiHttpUrl+"sendGroupMessage",params)
 	if err!=nil{
