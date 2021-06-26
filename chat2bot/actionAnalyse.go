@@ -64,8 +64,17 @@ func ActionSelect(text string)(err error)  {
 
 
 func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
-
-
+	isWhite:=false
+	qqSendGroups:=[]string{"1085171553","763091038"}
+	for _, v := range qqSendGroups {
+		if v==qqGroup{
+			isWhite =true
+			break
+		}
+	}
+	if !isWhite{
+		return
+	}
 	reg:=regexp.MustCompile("[来给求][点张份](?P<keyword>.*?)?[色涩瑟][图]")
 	key:=reg.FindSubmatch([]byte(text))
 	log.Printf("ActionSelect text:%v\n",text)
@@ -101,7 +110,7 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 		BotService.SendDailyPicWithQQGroupByMode(qqGroup,"male_r18")
 		return
 	}
-	if text=="今日男性r18榜单"{
+	if text=="今日女性r18榜单"{
 		miraiHttp.SendTextByQQ("要去了是吧，你先把裤子脱好吧",qqGroup)
 		BotService.SendDailyPicWithQQGroupByMode(qqGroup,"female_r18")
 		return
