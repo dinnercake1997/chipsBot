@@ -69,3 +69,17 @@ func ZhiHuSend(){
 	url:="https://gitee.com/liang_zi_hao1997/FacemaskOrder/blob/master/weiboLogo.png"
 	miraiHttp.SendMix(text,url)
 }
+
+func ZhiHuSendByQQ(qq string){
+	text,err:=getZhiHuReSou()
+
+	if err!=nil{
+		log.Printf("请求求微博热点接口获取图片信息出错:%v",err)
+	}
+	//url,err:=utils.GetPicUrl()
+	//if err!=nil{
+	//	log.Printf("请求luolikon接口获取图片信息出错:%v",err)
+	//}
+	//url:="https://gitee.com/liang_zi_hao1997/FacemaskOrder/blob/master/weiboLogo.png"
+	miraiHttp.SendMixByQQ(text,qq)
+}

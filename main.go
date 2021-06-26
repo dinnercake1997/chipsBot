@@ -28,7 +28,7 @@ func main(){
 	cronTask.CronTask=cronTask.InitCronTask()
 	BotService.InitPixivAPI()
 
-	//BotService.SendDailyPic()
+	//BotService.SendDailyPic2()
 	//test()
 	//BotService.SendPic()
 	//BotService.ScienceSend()
@@ -50,9 +50,9 @@ func test(){
 	c.BypassSNIBlocking()
 	c.SetDefaultHeader("User-Agent", client.DefaultUserAgent)
 
-	c.SetPHPSESSID("11517896_kmpPv4CJsn0ly8L1q0z8ZJX4LO100YpG")
-
-
+	c.SetPHPSESSID("42514297_MmTouOYYPgtKldShuFTjN80ty2wjzXIa")
+	//42514297_MmTouOYYPgtKldShuFTjN80ty2wjzXIa
+	//11517896_kmpPv4CJsn0ly8L1q0z8ZJX4LO100YpG
 	//c := &client.Client{}
 	//c.SetDefaultHeader("User-Agent", client.DefaultUserAgent)
 	//c.Login("1020224260@qq.com", "qq1020224260")
@@ -65,8 +65,8 @@ func test(){
 	result, err := artwork.Search(ctx, "パチュリー・ノーレッジ")
 	if err==nil{
 		log.Printf("resultJson:%v",result.JSON)
-		//result.Artworks() // []artwork.Artwork，只有部分数据，通过 `Fetch` `FetchPages` 方法获取完整数据。
-		//artwork.Search(ctx, "パチュリー・ノーレッジ", artwork.SearchOptionPage(2)) // 获取第二页
+		result.Artworks() // []artwork.Artwork，只有部分数据，通过 `Fetch` `FetchPages` 方法获取完整数据。
+		artwork.Search(ctx, "パチュリー・ノーレッジ", artwork.SearchOptionPage(2)) // 获取第二页
 	}else{
 		log.Printf("err:%v",err)
 	}
@@ -94,11 +94,16 @@ func Chat2Bot(w http.ResponseWriter, r *http.Request) {
 	// 读取 r 的请求主体，并将具体内容读入 body 中
 	r.Body.Read(body)
 	log.Printf("body:%s",body)
-	text,err:=chat2bot.GetTextFromBody(string(body))
+
+	text,groupQQ,err:=chat2bot.GetTextAndGroupFromBody(string(body))
+
 	if err!=nil{
 		log.Printf("GetTextFromBodyerr:%s",err)
+		return
 	}
-	chat2bot.ActionSelect(text)
+	//log.Printf("groupQQ:%s",groupQQ)
+	//chat2bot.ActionSelect(text)
+	chat2bot.ActionSelectWithQQGroup(text,groupQQ)
 	// 将字节切片内容写入相应报文
 	fmt.Fprintln(w, body)
 	return

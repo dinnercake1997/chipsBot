@@ -62,6 +62,16 @@ func SendPic(){
 	}
 	miraiHttp.SendPic(picUrl)
 }
+func SendPicByQQ(qq string){
+	//picUrl:="https://i.pixiv.cat/img-original/img/2014/04/05/23/26/27/42702642_p0.jpg"
+	picUrl,err:=GetPicUrl()
+	if err!=nil{
+		log.Printf("GetPicUrl函数出错:%v",err)
+		miraiHttp.SendTextByQQ(err.Error(),qq)
+		return
+	}
+	miraiHttp.SendPicByQQ(picUrl,qq)
+}
 
 //从luolikonAPI获取图片Url
 func GetPicUrlWithKey(key string)(picUrl string,err error){
@@ -117,4 +127,16 @@ func SendPicWithKey(key string){
 	}
 	//picUrl:="https://i.pixiv.cat/img-original/img/2014/04/05/23/26/27/42702642_p0.jpg"
 	miraiHttp.SendPic(picUrl)
+}
+
+func SendPicWithKeyAndQQGroup(key string,qqGroup string){
+	picUrl,err:=GetPicUrlWithKey(key)
+	if err!=nil{
+		log.Printf("GetPicUrl函数出错:%v",err)
+		miraiHttp.SendTextByQQ("我也不知道出了什么问题，总之就怪你的XP系统有毒吧~(0v0)~",qqGroup)
+		//miraiHttp.SendText(err.Error())
+		return
+	}
+	//picUrl:="https://i.pixiv.cat/img-original/img/2014/04/05/23/26/27/42702642_p0.jpg"
+	miraiHttp.SendPicByQQ(picUrl,qqGroup)
 }
