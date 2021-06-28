@@ -1,6 +1,8 @@
 package cronTask
 
 import (
+	"chipsBot/BotService"
+	"chipsBot/config"
 	"fmt"
 	"github.com/robfig/cron/v3"
 )
@@ -32,14 +34,21 @@ func InitCronTask()*cron.Cron{
 	//	fmt.Println("每五秒心跳一次")
 	//})
 
-	//c.AddFunc("0 */60 * * * ?", func() {//cron表达式，每15min一次
-	//
-	//	fmt.Println("开始执行发图定时任务")
-	//	for i := 0; i <= 5; i++{
-	//		BotService.SendPic()
-	//	}
-	//
-	//})
+	c.AddFunc("0 */60 * * * ?", func() {//cron表达式，每15min一次
+		fmt.Println("开始执行发图定时任务")
+		for i := 0; i <= 5; i++{
+			for _, v := range config.QQSendGroups {
+				if config.SendOnTitleMap[v]!=""{
+					if config.SendOnTitleMap[v]=="默认"{
+						BotService.SendPicByQQ(v)
+					}else{
+						BotService.SendPicWithKeyAndQQGroup(config.SendOnTitleMap[v],v)
+					}
+				}
+			}
+		}
+
+	})
 	//c.AddFunc("0 30 */8 * * ?", func() {//cron表达式，每8小时一次
 	//
 	//	fmt.Println("开始执行热搜定时任务")

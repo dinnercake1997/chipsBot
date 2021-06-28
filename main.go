@@ -27,7 +27,8 @@ func main(){
 	miraiHttp.InitMiraiHttp()
 	cronTask.CronTask=cronTask.InitCronTask()
 	BotService.InitPixivAPI()
-
+	startTips()
+	//testTittle()
 	//BotService.SendDailyPic2()
 	//test()
 	//BotService.SendPic()
@@ -42,6 +43,28 @@ func main(){
 	}
 }
 
+func startTips(){
+	for _, v := range config.QQSendGroups {
+		tips:="机器人启动成功！ \\n\\n"+
+			"版本信息："+config.Myconfig.VersionTime+"\\n\\n"+
+			"菜单指令：link start"
+		miraiHttp.SendTextByQQ(tips,v)
+	}
+}
+
+//func testTittle(){
+//	for i := 0; i <= 5; i++{
+//		for _, v := range config.QQSendGroups {
+//			if config.SendOnTitleMap[v]!=""{
+//				if config.SendOnTitleMap[v]=="默认"{
+//					BotService.SendPicByQQ(v)
+//				}else{
+//					BotService.SendPicWithKeyAndQQGroup(config.SendOnTitleMap[v],v)
+//				}
+//			}
+//		}
+//	}
+//}
 
 func test(){
 	//client.Default

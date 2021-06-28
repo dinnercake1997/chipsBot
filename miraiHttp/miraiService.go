@@ -45,6 +45,7 @@ func verifyMiraiHttp(session string)(err error){
 
 
 func InitMiraiHttp()error{
+
 	session,err:=authMiraiHttp()
 	if err!=nil{
 		log.Printf("初始化miraihttp出错")
