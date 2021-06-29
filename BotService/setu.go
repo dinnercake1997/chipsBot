@@ -121,7 +121,7 @@ func SendPicWithKey(key string){
 	picUrl,err:=GetPicUrlWithKey(key)
 	if err!=nil{
 		log.Printf("GetPicUrl函数出错:%v",err)
-		miraiHttp.SendText("我也不知道出了什么问题，总之就怪你的XP系统有毒吧~(0v0)~")
+		miraiHttp.SendText("主人的XP系统太过前卫了，诺艾尔爱莫能助(X灬X)")
 		//miraiHttp.SendText(err.Error())
 		return
 	}
@@ -132,7 +132,7 @@ func SendPicWithKeyByQQ(key string,qq string){
 	picUrl,err:=GetPicUrlWithKey(key)
 	if err!=nil{
 		log.Printf("GetPicUrl函数出错:%v",err)
-		miraiHttp.SendTextByQQ("我也不知道出了什么问题，总之就怪你的XP系统有毒吧~(0v0)~",qq)
+		miraiHttp.SendTextByQQ("主人的XP系统太过前卫了，诺艾尔爱莫能助(X灬X)",qq)
 		//miraiHttp.SendText(err.Error())
 		return
 	}
@@ -144,7 +144,7 @@ func SendPicWithKeyAndQQGroup(key string,qqGroup string){
 	picUrl,err:=GetPicUrlWithKey(key)
 	if err!=nil{
 		log.Printf("GetPicUrl函数出错:%v",err)
-		miraiHttp.SendTextByQQ("我也不知道出了什么问题，总之就怪你的XP系统有毒吧~(0v0)~",qqGroup)
+		miraiHttp.SendTextByQQ("主人的XP系统太过前卫了，诺艾尔爱莫能助(X灬X)",qqGroup)
 		//miraiHttp.SendText(err.Error())
 		return
 	}

@@ -7,9 +7,15 @@ import (
 	"io/ioutil"
 )
 
+
 var Myconfig Config
 var QQSendGroups=[]string{"1085171553","763091038"}
-var SendOnTitleMap map[string]string
+var GroupSets =make(map[string] *GroupSet)
+
+type GroupSet struct{
+	Tittle string
+	IsOnTime bool
+}
 
 type Config struct {
 	MiraiHttpUrl      string`yaml:"MiraiHttpUrl"`
@@ -19,11 +25,16 @@ type Config struct {
 	VersionTime string `yaml:"VersionTime"`
 }
 
+
 func (c *Config)GetConf() *Config {
-	SendOnTitleMap= make(map[string]string)
+	GroupSets= make(map[string]*GroupSet)
 	for _, v := range QQSendGroups {
-		SendOnTitleMap[v]=""
+		tempSet:=new(GroupSet)
+		tempSet.Tittle="随机"
+		tempSet.IsOnTime=false
+		GroupSets[v]=tempSet
 	}
+
 	yamlFile, err := ioutil.ReadFile("config.yaml")
 	if err != nil {
 		fmt.Println(err.Error())
