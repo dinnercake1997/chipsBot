@@ -30,7 +30,7 @@ func main(){
 	miraiHttp.InitMiraiHttp()
 	cronTask.CronTask=cronTask.InitCronTask()
 	BotService.InitPixivAPI()
-	//startTips()
+	startTips()
 
 	http.HandleFunc("/", Chat2Bot)
 	//http.HandleFunc("/message", TestHandler)
@@ -46,7 +46,7 @@ func startTips(){
 	for _, v := range config.Myconfig.TargetGroups {
 		tips:="机器人启动成功！ \\n\\n"+
 			"版本信息："+config.Myconfig.VersionTime+"\\n\\n"+
-			"菜单指令：link start"
+			"菜单指令：菜单 或者喊机器人的名字"
 		miraiHttp.SendTextByQQ(tips,v)
 	}
 }
