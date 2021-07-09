@@ -17,6 +17,7 @@ type GroupSet struct{
 	IsWeiBoFuLiJi bool
 	IsWeiBoSeTu bool
 	IsWeiBoShaDiaoTU bool
+	IsWater bool
 }
 
 type Config struct {

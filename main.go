@@ -32,13 +32,14 @@ func main(){
 	BotService.InitPixivAPI()
 	startTips()
 
-	http.HandleFunc("/", Chat2Bot)
-	//http.HandleFunc("/message", TestHandler)
-	err:=http.ListenAndServe("0.0.0.0:9090", nil)
-	if err != nil {
-		// 服务器创建失败
-		panic("服务器创建失败")
-	}
+	//BotService.SendBlogsByUserIdsByQQGroups(config.Myconfig.WeiBoShaDiaoUps,config.Myconfig.TargetGroups)
+	//http.HandleFunc("/", Chat2Bot)
+	////http.HandleFunc("/message", TestHandler)
+	//err:=http.ListenAndServe("0.0.0.0:9090", nil)
+	//if err != nil {
+	//	// 服务器创建失败
+	//	panic("服务器创建失败")
+	//}
 
 }
 

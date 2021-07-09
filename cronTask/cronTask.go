@@ -86,34 +86,49 @@ func InitCronTask()*cron.Cron{
 	c.AddFunc("0 0 15 * * ?", func() {//
 		for _, v := range config.Myconfig.TargetGroups {
 			text:= BotService.DrinkTeaContent()
-			miraiHttp.SendTextByQQ(text,v)
+			if config.GroupSets[v].IsWater{
+				miraiHttp.SendTextByQQ(text,v)
+			}
 		}
 	})
 	c.AddFunc("0 0 12 * * ?", func() {//
 		for _, v := range config.Myconfig.TargetGroups {
 			text:= "欧尼酱，就算再忙，午餐也要吃顿好的~如果有什么事，只要喊我的名字就可以了，我会随叫随到。"
-			miraiHttp.SendTextByQQ(text,v)
+			if config.GroupSets[v].IsWater{
+				miraiHttp.SendTextByQQ(text,v)
+			}
 		}
 	})
 	c.AddFunc("0 30 7-23 * * ?", func() {//
 		for _, v := range config.Myconfig.TargetGroups {
 			text:= BotService.WaterContent()
-			miraiHttp.SendTextByQQ(text,v)
-
+			if config.GroupSets[v].IsWater{
+				miraiHttp.SendTextByQQ(text,v)
+			}
 		}
+	})
+
+	c.AddFunc("0 0 0 * * ?", func() {//
+		config.Myconfig=*config.Myconfig.GetConf()
 	})
 
 
 	c.AddFunc("0 0 18 * * ?", func() {//
 		for _, v := range config.Myconfig.TargetGroups {
 			text:= "傍晚了，独角兽想和欧尼酱商量一下今晚吃什么"
-			miraiHttp.SendTextByQQ(text,v)
+			if config.GroupSets[v].IsWater{
+				miraiHttp.SendTextByQQ(text,v)
+			}
+
 		}
 	})
 	c.AddFunc("0 0 0 * * ?", func() {//
 		for _, v := range config.Myconfig.TargetGroups {
+
 			text:= "夜深了，欧尼酱也会在梦里陪着独角兽的吧~"
-			miraiHttp.SendTextByQQ(text,v)
+			if config.GroupSets[v].IsWater{
+				miraiHttp.SendTextByQQ(text,v)
+			}
 		}
 	})
 

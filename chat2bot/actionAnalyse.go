@@ -191,20 +191,31 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 		miraiHttp.SendTextByQQ("退订成功！",qqGroup)
 		return
 	}
+	if text=="喝水提醒"{
+		config.GroupSets[qqGroup].IsWater=true
+		miraiHttp.SendTextByQQ("喝水提醒成功！！",qqGroup)
+		return
+	}
+	if text=="我喝吐了"{
+		config.GroupSets[qqGroup].IsWater=false
+		miraiHttp.SendTextByQQ("就算不要我提醒，欧尼酱也要多喝水呀！",qqGroup)
+		return
+	}
 	if text=="独角兽"||text=="UNIKON"||text=="unikon"||text=="菜单"{
 		//miraiHttp.SendText("现在的功能还很少呢~大伙快想想还有什么好idea呀！")
 		caidan:=
 			"欧尼酱…想要更多了解独角兽吗？\\n"+
-			"UNIKON现在装载了以下功能，希望能满足欧尼酱\\n\\n" +
-			"1.点图功能：“来点jk瑟图” “来点瑟图” “来点明日方舟瑟图” 可发挥想象力找想看的\\n\\n" +
+			"UNIKON现在装载了以下功能，希望能满足欧尼酱\\n" +
+			"1.点图功能：“来点jk瑟图” “来点瑟图” “来点明日方舟瑟图” 可发挥想象力找想看的\\n" +
 			"2.榜单功能:\\n" +
 			"      “今日/周/月榜单”\\n" +
 			"      ”今日/周r18榜单“\\n" +
-			"      “今日男/女性r18榜单”\\n\\n" +
-			"3.新闻相关：“知乎热榜” “微博热搜”\\n\\n" +
-			"4.定时瑟图：“开启定时色图” “关闭定时色图” “设置白丝主题” “重置主题” “查看主题” ”设置黑丝主题“等。\\n\\n"+
-			"5.配菜功能：“查看主题” “设置黑丝主题” “上色图” 根据主题推送若干张图 。\\n\\n"+
-			"6.订阅功能：“订阅福利姬/色图/沙雕图” “退订福利姬/色图/沙雕图” \\n"
+			"      “今日男/女性r18榜单”\\n" +
+			"3.新闻相关：“知乎热榜” “微博热搜”\\n" +
+			"4.定时瑟图：“开启定时色图” “关闭定时色图” “设置白丝主题” “重置主题” “查看主题” ”设置黑丝主题“等。\\n"+
+			"5.配菜功能：“查看主题” “设置黑丝主题” “上色图” 根据主题推送若干张图 。\\n"+
+			"6.订阅功能：“订阅福利姬/色图/沙雕图” “退订福利姬/色图/沙雕图” \\n"+
+			"6.喝水功能：“喝水提醒” “我喝吐了” \\n"
 
 
 		//url:="https://gitee.com/liang_zi_hao1997/FacemaskOrder/blob/master/weiboLogo.png"
