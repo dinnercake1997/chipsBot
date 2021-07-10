@@ -27,6 +27,7 @@ func main(){
 
 	//需要开放的
 	config.Myconfig=*config.Myconfig.GetConf()
+	config.InitGroupSet()
 	miraiHttp.InitMiraiHttp()
 	cronTask.CronTask=cronTask.InitCronTask()
 	BotService.InitPixivAPI()

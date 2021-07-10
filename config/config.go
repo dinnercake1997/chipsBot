@@ -47,14 +47,20 @@ func (c *Config)GetConf() *Config {
 		fmt.Println(err.Error())
 	}
 
-	//for _, v := range Myconfig.TargetGroups  {
-	//	tempSet:=new(GroupSet)
-	//	tempSet.Tittle="随机"
-	//	tempSet.IsOnTime=false
-	//	GroupSets[v]=tempSet
-	//}
 	return c
 }
 
+func InitGroupSet(){
+	for _, v := range Myconfig.TargetGroups  {
+		tempSet:=new(GroupSet)
+		tempSet.Tittle=""
+		tempSet.IsOnTime=false
+		tempSet.IsWater=false
+		tempSet.IsWeiBoShaDiaoTU=false
+		tempSet.IsWeiBoFuLiJi=false
+		tempSet.IsWeiBoSeTu=false
+		GroupSets[v]=tempSet
+	}
+}
 
 
