@@ -30,7 +30,7 @@ func main(){
 	miraiHttp.InitMiraiHttp()
 	cronTask.CronTask=cronTask.InitCronTask()
 	BotService.InitPixivAPI()
-	startTips()
+	//startTips()
 
 	//BotService.SendBlogsByUserIdsByQQGroups(config.Myconfig.WeiBoShaDiaoUps,config.Myconfig.TargetGroups)
 	http.HandleFunc("/", Chat2Bot)

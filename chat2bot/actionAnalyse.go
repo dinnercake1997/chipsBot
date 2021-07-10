@@ -227,7 +227,7 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 		num:=utils.GetRand(1,6)
 		numString:=strconv.Itoa(num)
 		miraiHttp.SendTextByQQ("我跟优酱说，我喜欢硬邦邦的欧尼酱，然后它就给我找到了这"+numString+"张图，说要递给欧尼酱。",qqGroup)
-		if config.GroupSets[qqGroup].Tittle=="随机"{
+		if config.GroupSets[qqGroup].Tittle==""{
 			for i:=0;i<num;i++{
 				BotService.SendPicByQQ(qqGroup)
 			}

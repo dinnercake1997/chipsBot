@@ -39,7 +39,7 @@ func InitCronTask()*cron.Cron{
 		fmt.Println("开始执行发图定时任务")
 		for _, v := range config.Myconfig.TargetGroups {
 			if config.GroupSets[v].IsOnTime==true{
-				if config.GroupSets[v].Tittle!="随机"{
+				if config.GroupSets[v].Tittle!=""{
 					for i := 0; i <= 5; i++{BotService.SendPicWithKeyAndQQGroup(config.GroupSets[v].Tittle,v)}
 				}else{
 					for i := 0; i <= 5; i++{BotService.SendPicByQQ(v)}
@@ -108,7 +108,7 @@ func InitCronTask()*cron.Cron{
 		}
 	})
 
-	c.AddFunc("0 0 0 * * ?", func() {//
+	c.AddFunc("0 0 3 * * ?", func() {//
 		config.Myconfig=*config.Myconfig.GetConf()
 	})
 
