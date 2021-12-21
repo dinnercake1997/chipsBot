@@ -1,5 +1,14 @@
 package utils
 
+import (
+	"fmt"
+	"github.com/PuerkitoBio/goquery"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"time"
+)
+
 //func SpiderTest(){
 //	resp,err:=http.Get("http://www.baidu.com/")
 //	if err!=nil{
@@ -39,32 +48,38 @@ package utils
 //}
 //
 //
-//func TestMeiNv(){
-//	client := &http.Client{}
-//	begin := time.Now()
-//	for page := 1; page <= 10; page++ {
-//		url := "http://www.meituba.com/xinggan/list8" + strconv.Itoa(page) + ".html"
-//		request, err := http.NewRequest("GET", url, nil)
-//		request.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36")
-//		request.Header.Add("Host", "www.meituba.com")
-//		response, err := client.Do(request)
-//		//fmt.Printf("response.Body:%v\n",response)
-//
-//		opending, err := goquery.NewDocumentFromResponse(response)
-//		if err != nil {
-//			log.Fatal(err)
-//		}
-//		ele := opending.Find(".imgc")
-//		ele.Each(func(index int, content *goquery.Selection) {
-//			name, _ := content.Find("a").First().Attr("title")
-//			fmt.Printf("%d: %s\n", index+1+(page-1)*16, name)
-//		})
-//	}
-//	end := time.Now()
-//	spendTime := end.Sub(begin)
-//	fmt.Println("花费时间为:", spendTime)
-//
-//}
+func TestMeiNv(){
+	client := &http.Client{}
+	begin := time.Now()
+	//for page := 1; page <= 10; page++ {
+		url := "https://www.tuaoo.cc/"
+		request, err := http.NewRequest("GET", url, nil)
+		request.Header.Add("User-Agent", "okhttp/3.8.1")
+		//request.Header.Add("User-Agent", "okhttp/3.8.1")
+		request.Header.Add("Content-Type", "application/json; charset=UTF-8")
+		response, err := client.Do(request)
+		fmt.Printf("response.Body:%v\n",response)
+		body, err := ioutil.ReadAll(response.Body)
+		if err != nil {
+			fmt.Println("http read error.")
+		}
+		src := string(body)
+		fmt.Println(src)
+			opending, err := goquery.NewDocumentFromResponse(response)
+			if err != nil {
+				log.Fatal(err)
+			}
+		ele := opending.Find(".imgc")
+		ele.Each(func(index int, content *goquery.Selection) {
+			//name, _ := content.Find("a").First().Attr("title")
+			fmt.Printf("1")
+		})
+	//}
+	end := time.Now()
+	spendTime := end.Sub(begin)
+	fmt.Println("花费时间为:", spendTime)
+
+}
 //func TestQ(){
 //	client := &http.Client{}
 //	begin := time.Now()

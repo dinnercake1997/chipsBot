@@ -30,12 +30,12 @@ func  SendBlogsByUserIdsByQQGroups(userIDs []string,qqGroups []string ) (err err
 		log.Printf("第%v个userid:%s!\n",index,userId)
 		containerId,err:=GetWeiboContainId(userId)
 		if err!=nil{
-			log.Println("err:",err)
+			log.Println("GetWeiboContainIdErr:",err)
 			return err
 		}
 		newWeiBoInfos,err:=GetNewBlogsByUserIdAndContainid(userId,containerId)
 		if err!=nil{
-			log.Println("err:",err)
+			log.Println("GetNewBlogsByUserIdAndContainidErr:",err)
 			return err
 		}
 		if len(newWeiBoInfos.blogs)!=0{
@@ -57,12 +57,13 @@ func  SendBlogsByUserIdsByQQGroups(userIDs []string,qqGroups []string ) (err err
 func GetWeiboContainId(weiBoUserId string)  (containerId string,err error){
 
 	url := "https://m.weibo.cn/api/container/getIndex?type=uid&value="+weiBoUserId
+
 	req, _ := http.NewRequest("GET", url, nil)
 	res, err := http.DefaultClient.Do(req)
-	defer res.Body.Close()
 	if err!=nil{
-		log.Printf("请求微博用户container出错")
-		err=errors.New("请求微博用户container出错")
+		log.Printf(err.Error())
+		log.Printf("请求微博用户container出错1111")
+		err=errors.New("请求微博用户container出错111")
 		return
 	}
 	body, _ := ioutil.ReadAll(res.Body)
@@ -71,13 +72,16 @@ func GetWeiboContainId(weiBoUserId string)  (containerId string,err error){
 		log.Printf("请求微博用户container出错转json出错:%v",err)
 		return "",errors.New("请求微博用户container出错转json出错")
 	}
-	if err!=nil{return}
+	if err!=nil{
+		return
+	}
 	//groupqq,_:=json.Get("sender").Get("group").Map()
 	////groupQQ=groupQQInt.(string)
 	//groupQQ=fmt.Sprintf("%v",groupqq["id"])
 	userInfo,_:=json.Map()
 	okGetUserInfo:=fmt.Sprintf("%v",userInfo["ok"])
 	fmt.Printf("okGetUserInfo:%s\n",okGetUserInfo)
+
 	if okGetUserInfo!="1" {
 		return "",errors.New("请求微博用户container出错")
 	}
@@ -127,6 +131,9 @@ func GetNewBlogsByUserIdAndContainid(userId string,containerid string) (newWeiBo
 	blogsInfo:=fmt.Sprintf("%v",blogsMap["ok"])
 	fmt.Printf("blogsInfo:%s\n",blogsInfo)
 	if blogsInfo!="1" {
+		if blogsInfo=="0"{
+			return newWeiBoInfo,nil
+		}
 		return newWeiBoInfo,errors.New("请求微博用户container出错")
 	}
 
@@ -143,7 +150,10 @@ func GetNewBlogsByUserIdAndContainid(userId string,containerid string) (newWeiBo
 		//fmt.Printf("mblogJson:%v\n",mblogJson)
 		mblogMap,_:=mblogJson.Get("mblog").Map()
 		tempBlog:=new(Blog)
-		isSend:=CheckIsNewBlog(mblogMap["created_at"].(string))
+		isSend:=false
+		if mblogMap["created_at"]!=nil{
+			isSend=CheckIsNewBlog(mblogMap["created_at"].(string))
+		}
 		if isSend{
 			tempBlog.originPic,_=mblogJson.Get("mblog").Get("original_pic").String()
 			tempBlog.pics,_=mblogJson.Get("mblog").Get("pic_ids").StringArray()
@@ -184,6 +194,7 @@ func CheckIsNewBlog(timeString string )( res bool ){
 		res=false
 	}else {
 		res=true
+		log.Printf("新微博：%v\n",temp)
 	}
 	return res
 }
@@ -198,23 +209,28 @@ func WeiBoTimeToTimeStamp(timeString string)(timeStamp int64){
 	MonthMap["Jun"]="06"
 	MonthMap["Jul"]="07"
 	MonthMap["Aug"]="08"
-	MonthMap["Sept"]="09"
+	MonthMap["Sep"]="09"
 	MonthMap["Oct"]="10"
 	MonthMap["Nov"]="11"
 	MonthMap["Dec"]="12"
 	tempArrary1:=strings.Split(timeString," ")
 	//tempArrary2:=strings.Split(timeString,":")
+
 	month:= MonthMap[tempArrary1[1]]
+	//log.Printf("month0:%v",tempArrary1[1])
+	//log.Printf("month:%v",month)
 	day:=tempArrary1[2]
 	timeBlog:=tempArrary1[3]
 	year:=tempArrary1[5]
 
 	timeStringNormal := year + "-" + month + "-" + day + " " + timeBlog
+	log.Printf("time:%S",timeStringNormal)
 	timeLayout := "2006-01-02 15:04:05"                             //转化所需模板
 	loc, _ := time.LoadLocation("Local")                            //重要：获取时区
 	theTime, _ := time.ParseInLocation(timeLayout, timeStringNormal, loc) //使用模板在对应时区转化为time.time类型
 	timeStamp = theTime.Unix()                                          //转化为时间戳 类型是int64
 	//fmt.Println(theTime)                                            //打印输出theTime 2015-01-01 15:15:00 +0800 CST
 	//fmt.Println(timeStamp)                                                 //打印输出时间戳 1420041600
+	//log.Printf("timeStamp:%S",timeStamp)
 	return
 }

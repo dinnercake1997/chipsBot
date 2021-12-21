@@ -1,18 +1,15 @@
-package BotService
+package PublicService
 
 import (
-	"chipsBot/miraiHttp"
 	"errors"
 	"github.com/bitly/go-simplejson"
 	"io/ioutil"
 	"log"
-	"math/rand"
 	"net/http"
 	"strconv"
 )
 
-func getWeiboReSou() (content string,err error){
-	content+="给欧尼酱送上微博实时热搜\\n"
+func GetWeiboReSouPublic() (content string,err error){
 	url := "http://api.tianapi.com/txapi/weibohot/index?key=5c647563d4afcb93a78ab3dbc1e731c9"
 	req, _ := http.NewRequest("GET", url, nil)
 	res, err := http.DefaultClient.Do(req)
@@ -48,34 +45,6 @@ func getWeiboReSou() (content string,err error){
 		iString:=strconv.Itoa(i+1)
 		content+=iString+".热搜:"+hotword+" 热度:"+hotwordnum+"\\n"
 	}
-	randInt := rand.Intn(100)  //生成0-99之间的随机数
-	content+="带个随机数防止腾讯以为是广告："+string(randInt)
+
 	return
-}
-
-func WeiBoSend(){
-	text,err:=getWeiboReSou()
-
-	if err!=nil{
-		log.Printf("请求求微博热点接口获取图片信息出错:%v",err)
-	}
-	//url,err:=utils.GetPicUrl()
-	//if err!=nil{
-	//	log.Printf("请求luolikon接口获取图片信息出错:%v",err)
-	//}
-	url:="https://gitee.com/liang_zi_hao1997/FacemaskOrder/blob/master/weiboLogo.png"
-	miraiHttp.SendMix(text,url)
-}
-func WeiBoSendByQQ(qq string){
-	text,err:=getWeiboReSou()
-
-	if err!=nil{
-		log.Printf("请求求微博热点接口获取图片信息出错:%v",err)
-	}
-	//url,err:=utils.GetPicUrl()
-	//if err!=nil{
-	//	log.Printf("请求luolikon接口获取图片信息出错:%v",err)
-	//}
-	//url:="https://gitee.com/liang_zi_hao1997/FacemaskOrder/blob/master/weiboLogo.png"
-	miraiHttp.SendMixByQQ(text,qq)
 }

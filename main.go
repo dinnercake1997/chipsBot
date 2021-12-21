@@ -3,11 +3,13 @@ package main
 import (
 	"chipsBot/BotService"
 	_ "chipsBot/BotService"
+	"chipsBot/PublicService"
 	"chipsBot/chat2bot"
 	"chipsBot/config"
 	"chipsBot/cronTask"
 	_ "chipsBot/cronTask"
 	"chipsBot/miraiHttp"
+	"chipsBot/utils"
 	"context"
 	"fmt"
 	"log"
@@ -19,11 +21,7 @@ import (
 
 func main(){
 
-	//for{
-	//	utils.SendPic()
-	//	log.Printf("每5分钟打印一次\n")
-	//	time.Sleep(time.Second*60*15)
-	//}
+
 
 	//需要开放的
 	config.Myconfig=*config.Myconfig.GetConf()
@@ -31,11 +29,17 @@ func main(){
 	miraiHttp.InitMiraiHttp()
 	cronTask.CronTask=cronTask.InitCronTask()
 	BotService.InitPixivAPI()
-	//startTips()
+	BotService.SetBikaToken()
 
-	//BotService.SendBlogsByUserIdsByQQGroups(config.Myconfig.WeiBoShaDiaoUps,config.Myconfig.TargetGroups)
+	//
+
+	//需要开放的
+
+	////http.HandleFunc("/Chat2Server", Chat2Server)
+	////http.HandleFunc("/message", TestHandler)
+
 	http.HandleFunc("/", Chat2Bot)
-	//http.HandleFunc("/message", TestHandler)
+	//startTips()
 	err:=http.ListenAndServe("0.0.0.0:9090", nil)
 	if err != nil {
 		// 服务器创建失败
@@ -44,28 +48,13 @@ func main(){
 
 }
 
-func startTips(){
-	for _, v := range config.Myconfig.TargetGroups {
-		tips:="机器人启动成功！ \\n\\n"+
-			"版本信息："+config.Myconfig.VersionTime+"\\n\\n"+
-			"菜单指令：菜单 或者喊机器人的名字"
-		miraiHttp.SendTextByQQ(tips,v)
-	}
-}
 
-//func testTittle(){
-//	for i := 0; i <= 5; i++{
-//		for _, v := range config.QQSendGroups {
-//			if config.SendOnTitleMap[v]!=""{
-//				if config.SendOnTitleMap[v]=="默认"{
-//					BotService.SendPicByQQ(v)
-//				}else{
-//					BotService.SendPicWithKeyAndQQGroup(config.SendOnTitleMap[v],v)
-//				}
-//			}
-//		}
-//	}
-//}
+func startTips(){
+	url:="https://pixiv.re/66139416.png"
+	text:="恭喜！服务器启动成功！！"
+	qq:="1085171553"
+	miraiHttp.SendPicAndTextByQQ(text ,qq,url )
+}
 
 func test(){
 	//client.Default
@@ -132,6 +121,25 @@ func Chat2Bot(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, body)
 	return
 }
+
+
+
+func Chat2Server(w http.ResponseWriter, r *http.Request) {
+	// 获取请求报文的内容长度
+	len := r.ContentLength
+	// 新建一个字节切片，长度与请求报文的内容长度相同
+	body := make([]byte, len)
+	// 读取 r 的请求主体，并将具体内容读入 body 中
+	r.Body.Read(body)
+	log.Printf("body:%s",body)
+
+	content,_:=PublicService.GetWeiboReSouPublic()
+	resJson := utils.SetResMsgAndCode("上传文件块成功", 1,content)
+	w.Write(resJson)
+	return
+}
+
+
 //func TestHandler(w http.ResponseWriter, r *http.Request) {
 //	// 获取请求报文的内容长度
 //	len := r.ContentLength

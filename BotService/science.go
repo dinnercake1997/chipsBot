@@ -62,6 +62,6 @@ func ScienceSend(){
 	//if err!=nil{
 	//	log.Printf("请求luolikon接口获取图片信息出错:%v",err)
 	//}
-	url:="https://gitee.com/liang_zi_hao1997/FacemaskOrder/blob/master/weiboLogo.png"
+	url:=""
 	miraiHttp.SendMix(text,url)
 }

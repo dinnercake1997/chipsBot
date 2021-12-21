@@ -1,6 +1,22 @@
 
 MiraiHttpUrl: http://127.0.0.1:8080/
 Auth: INITKEYk2wKAiED
-QQNumber: 805102913
+QQNumber: 2720969126
 TargetGroups: [1085171553]
-VersionTime: 2021/06/28 9:00
+VersionTime: 2021/07/08 11:00  更新内容详情叫独角兽的名字叫出菜单
+
+MySqlIP: 127.0.0.1
+MySqlDataBase: chipsBot
+MySqlUserName: root
+MySqlPassWord: 127.0.0.1
+
+WeiBoShaDiaoUps: [1842706721,5648729445,7191712125,6054533864,5955106173,3819363678]
+WeiBoShaDiaoUpsNames: ["里神乐","A岛匿名","色图真是太棒了","睿闻联播","stage1st宅社区","日式冷吐槽"]
+WeiBoFuLiJiUps: [5832199024,7369207683,2813217452,1868515735,2727362643,2282086682,5399323492,5174017612,6655450792]
+WeiBoFuLiJiUpsBeiyong: [5399323492,5174017612,6655450792]
+WeiBoSeTuUps: [7537488559,5650270572,7301389190,7202910762]
+WeiBoSeTuUpsNames: ["玛由理丶","Hetin奶茶","米芋厨","本子姬"]
+IsNewWeiBoSeconds: 345793
+
+BikaStarPagesCount: 10
+

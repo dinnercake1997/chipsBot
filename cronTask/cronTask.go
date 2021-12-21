@@ -48,34 +48,40 @@ func InitCronTask()*cron.Cron{
 		}
 
 	})
-	c.AddFunc("0 0/20 * * * ?", func() {//cron表达式，每15min一次
-		fmt.Println("开始执行订阅任务")
+	c.AddFunc("0 21/20 * * * ?", func() {//cron表达式，每15min一次
+		fmt.Println("开始执行IsWeiBoSeTu订阅任务")
+		var tempQQgroups []string
 		for _, qq:= range config.Myconfig.TargetGroups {
-			var tempQQgroups []string
 			if config.GroupSets[qq].IsWeiBoSeTu==true{
 				tempQQgroups=append(tempQQgroups,qq)
 			}
+		}
+		if len(tempQQgroups)!=0{
 			BotService.SendBlogsByUserIdsByQQGroups(config.Myconfig.WeiBoSeTuUps,tempQQgroups)
 		}
 	})
-	c.AddFunc("0 7/20 * * * ?", func() {//cron表达式，每15min一次
 
+	c.AddFunc("0 7/20 * * * ?", func() {//cron表达式，每15min一次
+		var tempQQgroups []string
 		for _, qq:= range config.Myconfig.TargetGroups {
-			var tempQQgroups []string
-			if config.GroupSets[qq].IsWeiBoShaDiaoTU==true{
+			if config.GroupSets[qq].IsWeiBoShaDiaoTu==true{
 				tempQQgroups=append(tempQQgroups,qq)
 			}
+		}
+		if len(tempQQgroups)!=0{
 			BotService.SendBlogsByUserIdsByQQGroups(config.Myconfig.WeiBoShaDiaoUps,tempQQgroups)
 		}
 
 	})
 	c.AddFunc("0 14/20 * * * ?", func() {//cron表达式，每15min一次
 		fmt.Println("开始执行订阅任务")
+		var tempQQgroups []string
 		for _, qq:= range config.Myconfig.TargetGroups {
-			var tempQQgroups []string
 			if config.GroupSets[qq].IsWeiBoFuLiJi==true{
 				tempQQgroups=append(tempQQgroups,qq)
 			}
+		}
+		if len(tempQQgroups)!=0{
 			BotService.SendBlogsByUserIdsByQQGroups(config.Myconfig.WeiBoFuLiJiUps,tempQQgroups)
 		}
 
@@ -99,6 +105,9 @@ func InitCronTask()*cron.Cron{
 			}
 		}
 	})
+
+
+
 	c.AddFunc("0 30 7-23 * * ?", func() {//
 		for _, v := range config.Myconfig.TargetGroups {
 			text:= BotService.WaterContent()
@@ -107,10 +116,10 @@ func InitCronTask()*cron.Cron{
 			}
 		}
 	})
-
-	c.AddFunc("0 0 3 * * ?", func() {//
-		config.Myconfig=*config.Myconfig.GetConf()
-	})
+	//
+	//c.AddFunc("0 0 3 * * ?", func() {//
+	//	config.Myconfig=*config.Myconfig.GetConf()
+	//})
 
 
 	c.AddFunc("0 0 18 * * ?", func() {//

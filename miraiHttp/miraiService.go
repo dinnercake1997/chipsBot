@@ -6,6 +6,7 @@ import (
 	"errors"
 	"github.com/bitly/go-simplejson"
 	"log"
+	"time"
 )
 var SessionKey string
 
@@ -75,6 +76,32 @@ func SendPicByQQ( picUrl string ,qq string){
 		return
 	}
 }
+func SendPicByQQWithCheHui( picUrl string ,qq string)(err error){
+
+	params:="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": "+qq+",\n   \"messageChain\": [\n        { \"type\": \"Image\", \"url\": \""+picUrl+"\" }\n    ]\n}"
+	content,err:=utils.DoPost(config.Myconfig.MiraiHttpUrl+"sendGroupMessage",params)
+	//log.Printf("请求发送图片参数为：%v",params)
+	if err!=nil{
+		log.Printf("请求mirai-http-api出错:%v",err)
+		return
+	}
+	res:=[]byte(content)
+	resJson,err:=simplejson.NewJson(res)
+	msgId,err:=resJson.Get("messageId").String()
+
+	//10秒后撤回
+	time.Sleep(10 * time.Second)
+
+	params="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": "+msgId+"\n}"
+	content,err=utils.DoPost(config.Myconfig.MiraiHttpUrl+"/recall",params)
+	log.Printf("撤回结果：%v",content)
+	if err!=nil{
+		log.Printf("撤回出错:%v",err)
+		return
+	}
+	return
+}
+
 
 func SendText( text string ){
 	params:="{\n    \"sessionKey\": \""+SessionKey+"\",\n   \"target\": 1085171553,\n    \"messageChain\": [\n        { \"type\": \"Plain\"," +
@@ -115,6 +142,17 @@ func SendMixByQQ( text string ,qq string ){
 	params:="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": "+qq+",\n   \"messageChain\": [\n                { \"type\": \"Plain\", \"text\": \""+text+"\" }\n    ]\n}"
 	//params2:="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": 763091038,\n    \"messageChain\": [\n        { \"type\": \"Image\", \"url\": \""+url+"\" },\n         { \"type\": \"Plain\", \"text\": \""+text+"\" }\n    ]\n}"
 	_,err:=utils.DoPost(config.Myconfig.MiraiHttpUrl+"sendGroupMessage",params)
+	if err!=nil{
+		log.Printf("请求mirai-http-api出错:%v",err)
+		return
+	}
+	return
+}
+func SendPicAndTextByQQ( text string ,qq string ,url string){
+
+	//params:="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": "+qq+",\n   \"messageChain\": [\n                { \"type\": \"Plain\", \"text\": \""+text+"\" }\n    ]\n}"
+	params2:="{\n    \"sessionKey\": \""+SessionKey+"\",\n    \"target\": "+qq+",\n    \"messageChain\": [\n        { \"type\": \"Image\", \"url\": \""+url+"\" },\n         { \"type\": \"Plain\", \"text\": \""+text+"\" }\n    ]\n}"
+	_,err:=utils.DoPost(config.Myconfig.MiraiHttpUrl+"sendGroupMessage",params2)
 	if err!=nil{
 		log.Printf("请求mirai-http-api出错:%v",err)
 		return

@@ -7,8 +7,10 @@ import (
 	"chipsBot/utils"
 	"errors"
 	"log"
+	"math/rand"
 	"regexp"
 	"strconv"
+	"time"
 )
 //func ActionSelect(text string)(err error)  {
 //
@@ -108,7 +110,7 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 		return
 	}
 	if text=="今日r18榜单"{
-		miraiHttp.SendTextByQQ("后方支援就交给我吧…独角兽…会加油的…",qqGroup)
+		miraiHttp.SendTextByQQ("后方支援就交给我吧…阿比…会加油的…",qqGroup)
 		BotService.SendDailyPicWithQQGroupByMode(qqGroup,"daily_r18")
 		return
 	}
@@ -118,7 +120,7 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 		return
 	}
 	if text=="今日女性r18榜单"{
-		miraiHttp.SendTextByQQ("优酱：不要给独角兽这些辣！对她来说还太早了！",qqGroup)
+		miraiHttp.SendTextByQQ("北斋：不要给阿比画这些辣！对我来说还太早了！",qqGroup)
 		BotService.SendDailyPicWithQQGroupByMode(qqGroup,"female_r18")
 		return
 	}
@@ -127,7 +129,22 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 		BotService.SendDailyPicWithQQGroupByMode(qqGroup,"r18g")
 		return
 	}
+	if text=="更新配置"{
+		config.Myconfig=*config.Myconfig.GetConf()
 
+		BotService.SetBikaToken()
+		miraiHttp.SendTextByQQ("哥哥这么做，一定有其中的深意吧",qqGroup)
+		return
+	}
+
+	if text=="福利"{
+		rand.Seed(time.Now().UnixNano())
+		take:=5+rand.Intn(5)
+		for i:=0;i<take;i++{
+			BotService.SendCosWithQQGroup(qqGroup)
+		}
+		return
+	}
 
 
 	if text=="知乎热榜"{
@@ -136,13 +153,13 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 		return
 	}
 	if text=="微博热搜"{
-		miraiHttp.SendTextByQQ("独角兽…这次有帮上哥哥的忙吗？",qqGroup)
+		miraiHttp.SendTextByQQ("阿比…这次有帮上哥哥的忙吗？",qqGroup)
 		BotService.WeiBoSendByQQ(qqGroup)
 		return
 	}
 	if text=="开启定时色图"{
 		config.GroupSets[qqGroup].IsOnTime=true
-		miraiHttp.SendTextByQQ("…好可怕…独角兽可以回家吗 …哥哥？",qqGroup)
+		miraiHttp.SendTextByQQ("…好可怕…阿比可以回家吗 …哥哥？",qqGroup)
 		return
 	}
 	if text=="关闭定时色图"{
@@ -152,12 +169,12 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 	}
 	if text=="重置主题"{
 		config.GroupSets[qqGroup].Tittle="随机"
-		miraiHttp.SendTextByQQ("独角兽恢复出厂设置成功！！",qqGroup)
+		miraiHttp.SendTextByQQ("阿比恢复出厂设置成功！！",qqGroup)
 		return
 	}
 	if text=="查看主题"{
 		tittle:=config.GroupSets[qqGroup].Tittle
-		miraiHttp.SendTextByQQ("依我所知，优酱现在的形状是："+tittle,qqGroup)
+		miraiHttp.SendTextByQQ("依我所知，北斋现在研究的xp系统是："+tittle,qqGroup)
 		return
 	}
 
@@ -182,12 +199,12 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 		return
 	}
 	if text=="订阅沙雕图"{
-		config.GroupSets[qqGroup].IsWeiBoShaDiaoTU=true
+		config.GroupSets[qqGroup].IsWeiBoShaDiaoTu=true
 		miraiHttp.SendTextByQQ("订阅成功！！",qqGroup)
 		return
 	}
 	if text=="退订沙雕图"{
-		config.GroupSets[qqGroup].IsWeiBoShaDiaoTU=false
+		config.GroupSets[qqGroup].IsWeiBoShaDiaoTu=false
 		miraiHttp.SendTextByQQ("退订成功！",qqGroup)
 		return
 	}
@@ -201,13 +218,13 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 		miraiHttp.SendTextByQQ("就算不要我提醒，欧尼酱也要多喝水呀！",qqGroup)
 		return
 	}
-	if text=="独角兽"||text=="UNIKON"||text=="unikon"||text=="菜单"{
+	if text=="阿比"||text=="菜单"{
 		//miraiHttp.SendText("现在的功能还很少呢~大伙快想想还有什么好idea呀！")
 		caidan:=
-			"欧尼酱…想要更多了解独角兽吗？\\n"+
-			"UNIKON现在装载了以下功能，希望能满足欧尼酱\\n" +
+			"欧尼酱…想要更多了解阿比吗？\\n"+
+			"阿比现在装载了以下功能，希望能满足欧尼酱\\n" +
 			"1.点图功能：“来点jk瑟图” “来点瑟图” “来点明日方舟瑟图” 可发挥想象力找想看的\\n" +
-			"2.榜单功能:\\n" +
+			"2.榜单功能(维护中):\\n" +
 			"      “今日/周/月榜单”\\n" +
 			"      ”今日/周r18榜单“\\n" +
 			"      “今日男/女性r18榜单”\\n" +
@@ -215,8 +232,8 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 			"4.定时瑟图：“开启定时色图” “关闭定时色图” “设置白丝主题” “重置主题” “查看主题” ”设置黑丝主题“等。\\n"+
 			"5.配菜功能：“查看主题” “设置黑丝主题” “上色图” 根据主题推送若干张图 。\\n"+
 			"6.订阅功能：“订阅福利姬/色图/沙雕图” “退订福利姬/色图/沙雕图” \\n"+
-			"6.喝水功能：“喝水提醒” “我喝吐了” \\n"
-
+			"7.喝水功能：“喝水提醒” “我喝吐了” \\n"+
+			"8.福利姬功能：“福利” （三次元给爷爬） \\n"
 
 		//url:="https://gitee.com/liang_zi_hao1997/FacemaskOrder/blob/master/weiboLogo.png"
 		miraiHttp.SendMixByQQ(caidan,qqGroup)
@@ -224,9 +241,9 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 
 	}
 	if text=="色图time"||text=="上色图" {
-		num:=utils.GetRand(1,6)
+		num:=utils.GetRand(3,7)
 		numString:=strconv.Itoa(num)
-		miraiHttp.SendTextByQQ("我跟优酱说，我喜欢硬邦邦的欧尼酱，然后它就给我找到了这"+numString+"张图，说要递给欧尼酱。",qqGroup)
+		miraiHttp.SendTextByQQ("我跟北斋说，我喜欢硬邦邦的欧尼酱，然后它就给我画了这"+numString+"张图，说要递给欧尼酱。",qqGroup)
 		if config.GroupSets[qqGroup].Tittle==""{
 			for i:=0;i<num;i++{
 				BotService.SendPicByQQ(qqGroup)
@@ -238,23 +255,24 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 
 		}
 	}
+
 	regTitle:=regexp.MustCompile("[设][置](?P<keyword>.*?)?[主][题]")
 	keyTittle:=regTitle.FindSubmatch([]byte(text))
 	if len(keyTittle)!=0&&len(keyTittle[1])!=0{
 		config.GroupSets[qqGroup].Tittle=string(keyTittle[1])
-		sendText:="欧尼酱快看！优酱好奇怪，它说它要变成"+string(keyTittle[1])+"的形状了!"
-		//if string(keyTittle[1])=="诺艾尔"{
-		//	sendText="(///_///)主人，请不要开这种玩笑！（传来脱衣解带的声音）"
-		//	miraiHttp.SendTextByQQ(sendText,qqGroup)
-		//	sendText="(#。﹏。#)请对诺艾尔温柔点。"
-		//
-		//}
-		//
-		//if string(keyTittle[1])=="女仆"{
-		//	sendText="( >ρ < ”)你的眼前不就有一个女仆吗！"
-		//}
-
+		sendText:="北斋已经变成"+string(keyTittle[1])+"的形状了!"
 		miraiHttp.SendTextByQQ(sendText,qqGroup)
+
+							//if string(keyTittle[1])=="诺艾尔"{
+							//	sendText="(///_///)主人，请不要开这种玩笑！（传来脱衣解带的声音）"
+							//	miraiHttp.SendTextByQQ(sendText,qqGroup)
+							//	sendText="(#。﹏。#)请对诺艾尔温柔点。"
+							//
+							//}
+							//
+							//if string(keyTittle[1])=="女仆"{
+							//	sendText="( >ρ < ”)你的眼前不就有一个女仆吗！"
+							//}
 		return
 	}
 

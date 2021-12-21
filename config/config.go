@@ -16,7 +16,7 @@ type GroupSet struct{
 	IsOnTime bool
 	IsWeiBoFuLiJi bool
 	IsWeiBoSeTu bool
-	IsWeiBoShaDiaoTU bool
+	IsWeiBoShaDiaoTu bool
 	IsWater bool
 }
 
@@ -31,12 +31,11 @@ type Config struct {
 	WeiBoShaDiaoUps []string `yaml:"WeiBoShaDiaoUps"`
 	WeiBoFuLiJiUps []string `yaml:"WeiBoFuLiJiUps"`
 	WeiBoSeTuUps []string `yaml:"WeiBoSeTuUps"`
+	BikaStarPagesCount int64 `yaml:"BikaStarPagesCount"`
 }
 
 
 func (c *Config)GetConf() *Config {
-	GroupSets= make(map[string]*GroupSet)
-
 
 	yamlFile, err := ioutil.ReadFile("config.yaml")
 	if err != nil {
@@ -56,7 +55,7 @@ func InitGroupSet(){
 		tempSet.Tittle=""
 		tempSet.IsOnTime=false
 		tempSet.IsWater=false
-		tempSet.IsWeiBoShaDiaoTU=false
+		tempSet.IsWeiBoShaDiaoTu=false
 		tempSet.IsWeiBoFuLiJi=false
 		tempSet.IsWeiBoSeTu=false
 		GroupSets[v]=tempSet
