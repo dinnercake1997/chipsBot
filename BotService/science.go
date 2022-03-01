@@ -64,4 +64,5 @@ func ScienceSend(){
 	//}
 	url:=""
 	miraiHttp.SendMix(text,url)
+
 }

@@ -32,7 +32,6 @@ func main(){
 	BotService.SetBikaToken()
 
 	//
-
 	//需要开放的
 
 	////http.HandleFunc("/Chat2Server", Chat2Server)

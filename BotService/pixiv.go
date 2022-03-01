@@ -200,3 +200,13 @@ func GeneratePicUrlByIdAndPageAndPageCount(id string,page int,pageCount int )(ur
 	}
 	return url
 }
+
+func GeneratePicUrlByIdAndPageAndPageCountWithP(id string,page int,pageCount int )(url string){
+	p:= strconv.Itoa(page)
+		url="https://pixiv.re/"+id+"-"+p+".png"
+	return url
+}
+func GeneratePicUrlByIdAndPageAndPageCountWithNoP(id string,page int,pageCount int )(url string){
+	url="https://pixiv.re/"+id+".png"
+	return url
+}

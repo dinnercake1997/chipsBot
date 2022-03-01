@@ -88,7 +88,11 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 	key:=reg.FindSubmatch([]byte(text))
 	log.Printf("ActionSelect text:%v\n",text)
 
-
+	//if text=="bcr"{
+	//	//miraiHttp.SendTextByQQ("奖励…不能错过…",qqGroup)
+	//	miraiHttp.SendPicByQQ("",qqGroup)
+	//	return
+	//}
 	if text=="今周榜单"{
 		miraiHttp.SendTextByQQ("奖励…不能错过…",qqGroup)
 		BotService.SendDailyPicWithQQGroupByMode(qqGroup,"weekly")
@@ -131,7 +135,6 @@ func ActionSelectWithQQGroup(text string,qqGroup string)(err error)  {
 	}
 	if text=="更新配置"{
 		config.Myconfig=*config.Myconfig.GetConf()
-
 		BotService.SetBikaToken()
 		miraiHttp.SendTextByQQ("哥哥这么做，一定有其中的深意吧",qqGroup)
 		return
